@@ -27,7 +27,7 @@ RUN npm run build
 # Cloud Run はコンテナの $PORT をリッスンする必要があるため、Apacheを 8080 で待ち受け
 # 元のhttpd.confをバックアップしてから、必要な設定を追加
 RUN cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.bak && \
-    sed -i 's/^Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf && \
+    sed -i 's/^Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf &&  \
     printf '\n# Next.js proxy settings\n' >> /etc/httpd/conf/httpd.conf && \
     printf 'LoadModule proxy_module modules/mod_proxy.so\n' >> /etc/httpd/conf/httpd.conf && \
     printf 'LoadModule proxy_http_module modules/mod_proxy_http.so\n' >> /etc/httpd/conf/httpd.conf && \

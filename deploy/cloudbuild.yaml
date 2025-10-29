@@ -1,0 +1,34 @@
+timeout: 1200s
+options:
+  logging: CLOUD_LOGGING_ONLY
+substitutions:
+  _REGION: asia-northeast1
+  _AR_REPO: myblog
+steps:
+  # 1) Build container image
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/myblog:${SHORT_SHA}
+      - .
+
+  # 2) Push image to Artifact Registry
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/myblog:${SHORT_SHA}
+
+  # 3) Create a Cloud Deploy release (uses skaffold in this repo)
+  - name: gcr.io/cloud-builders/gcloud
+    args:
+      - deploy
+      - releases
+      - create
+      - release-${SHORT_SHA}
+      - --delivery-pipeline=myblog-pipeline
+      - --region=${_REGION}
+      - --annotations=commit_sha=${COMMIT_SHA}
+      - --images=myblog=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/myblog:${SHORT_SHA}
+      - --source=.
+

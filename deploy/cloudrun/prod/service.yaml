@@ -1,0 +1,12 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: myblog
+spec:
+  template:
+    spec:
+      containers:
+        - image: myblog
+          ports:
+            - containerPort: 8080
+

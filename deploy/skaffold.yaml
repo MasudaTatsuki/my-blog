@@ -1,0 +1,25 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: myblog
+build:
+  artifacts:
+    - image: myblog
+      context: .
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - deploy/cloudrun/dev/service.yaml
+deploy:
+  cloudrun: {}
+profiles:
+  - name: dev
+    manifests:
+      rawYaml:
+        - deploy/cloudrun/dev/service.yaml
+  - name: prod
+    manifests:
+      rawYaml:
+        - deploy/cloudrun/prod/service.yaml
+
