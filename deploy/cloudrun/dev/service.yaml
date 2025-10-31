@@ -2,6 +2,8 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: myblog-dev
+  annotations:
+    run.googleapis.com/ingress: all
 spec:
   template:
     spec:
@@ -9,4 +11,3 @@ spec:
         - image: myblog
           ports:
             - containerPort: 8080
-

@@ -10,14 +10,14 @@ steps:
     args:
       - build
       - -t
-      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/myblog:${SHORT_SHA}
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/myblog:${BUILD_ID}
       - .
 
   # 2) Push image to Artifact Registry
   - name: gcr.io/cloud-builders/docker
     args:
       - push
-      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/myblog:${SHORT_SHA}
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/myblog:${BUILD_ID}
 
   # 3) Create a Cloud Deploy release (uses skaffold in this repo)
   - name: gcr.io/cloud-builders/gcloud
@@ -25,10 +25,9 @@ steps:
       - deploy
       - releases
       - create
-      - release-${SHORT_SHA}
+      - release-${BUILD_ID}
       - --delivery-pipeline=myblog-pipeline
       - --region=${_REGION}
-      - --annotations=commit_sha=${COMMIT_SHA}
-      - --images=myblog=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/myblog:${SHORT_SHA}
+      - --skaffold-file=skaffold.yaml
+      - --images=myblog=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/myblog:${BUILD_ID}
       - --source=.
-

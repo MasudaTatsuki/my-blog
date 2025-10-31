@@ -8,9 +8,6 @@ build:
       context: .
       docker:
         dockerfile: Dockerfile
-manifests:
-  rawYaml:
-    - deploy/cloudrun/dev/service.yaml
 deploy:
   cloudrun: {}
 profiles:
@@ -22,4 +19,3 @@ profiles:
     manifests:
       rawYaml:
         - deploy/cloudrun/prod/service.yaml
-
