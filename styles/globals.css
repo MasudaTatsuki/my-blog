@@ -1,0 +1,94 @@
+:root {
+  --green: #10b981;
+  --green-600: #059669;
+  --black: #0b0b0b;
+  --white: #ffffff;
+}
+
+html, body, #__next {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--white);
+  background: var(--black);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+/* Header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.site-header-inner { display:flex; align-items:center; justify-content:space-between; height:64px; }
+.brand { font-weight:700; letter-spacing:.3px; }
+.brand-accent { color: var(--green); }
+.nav { display:flex; gap:20px; }
+.nav a { opacity:.9; }
+.nav a:hover { color: var(--green); opacity:1; }
+
+/* Hero */
+.hero {
+  position: relative;
+  min-height: 56vh;
+  display:flex;
+  align-items:center;
+  /* overlay 濃度はブレークポイントで調整 */
+  --overlay: .45;
+  background-image: linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))), url('/hero.jpg');
+  background-size: cover;
+  /* 顔が右寄りの画像想定でフォーカスを右側に寄せる */
+  background-position: 70% center;
+}
+.hero-inner { padding: 56px 0; }
+.badge { display:inline-block; background: rgba(16,185,129,.15); color: var(--green); border:1px solid rgba(16,185,129,.35); padding:4px 10px; border-radius:999px; font-size:.85rem; }
+
+/* Typing title */
+.typing {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--green);
+  width: 0;
+  animation: typing 2.8s steps(var(--chars, 24), end) 0.2s forwards, blink 1s step-end infinite;
+}
+/* ヒーロー見出しのサイズを可変に */
+.hero .typing { font-size: clamp(1.8rem, 4.5vw, 3rem); line-height: 1.15; }
+@keyframes typing { from { width: 0 } to { width: calc(var(--chars, 24) * 1ch) } }
+@keyframes blink { 50% { border-color: transparent } }
+
+.lead { color: #d1d5db; max-width: 60ch; }
+.cta { margin-top: 18px; display:flex; gap:12px; }
+.btn {
+  display:inline-block; padding:10px 16px; border-radius:10px;
+  border:1px solid rgba(255,255,255,0.14); color: var(--white);
+}
+.btn-primary { background: var(--green); border-color: var(--green-600); color: #001b10; font-weight:600; }
+.btn-primary:hover { filter: brightness(0.95); }
+.btn-ghost:hover { border-color: var(--green); color: var(--green); }
+
+.section { padding: 40px 0; }
+
+/* Mobile (<= 750px) */
+@media (max-width: 750px) {
+  .hero { 
+    min-height: 44vh; 
+    /* モバイルは別画像に切り替え */
+    background-image: linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))), url('/hero-mobile.jpg');
+    /* 顔が中央寄りになるように */
+    background-position: center;
+    /* テキストの可読性を上げるため少し濃く */
+    --overlay: .60;
+  }
+  .hero-inner { padding: 28px 0; }
+  .lead { font-size: 0.95rem; }
+  .cta { flex-wrap: wrap; }
+}

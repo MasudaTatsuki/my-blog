@@ -24,6 +24,7 @@ RUN npm run build
 # Configure Apache as reverse proxy on 8080 to Next.js on 3000
 RUN cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.bak && \
     sed -i 's/^Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf && \
+    sed -i '1i ServerName localhost' /etc/httpd/conf/httpd.conf && \
     printf '\n# Next.js reverse proxy on 8080 -> 3000\n' >> /etc/httpd/conf/httpd.conf && \
     printf 'LoadModule proxy_module modules/mod_proxy.so\n' >> /etc/httpd/conf/httpd.conf && \
     printf 'LoadModule proxy_http_module modules/mod_proxy_http.so\n' >> /etc/httpd/conf/httpd.conf && \

@@ -8,6 +8,10 @@ echo "[start] APP_ENV=${MODE} NEXT_PORT=${PORT_ENV}"
 
 if [ "$MODE" = "dev" ]; then
   echo "[start] Starting Next.js in DEV on port ${PORT_ENV} and Apache on 8080"
+  if [ ! -x node_modules/.bin/next ]; then
+    echo "[start] node_modules missing. Running npm ci..."
+    npm ci
+  fi
   npm run dev -- -p "${PORT_ENV}" &
   exec /usr/sbin/httpd -D FOREGROUND
 else
@@ -15,4 +19,3 @@ else
   PORT="${PORT_ENV}" npm start &
   exec /usr/sbin/httpd -D FOREGROUND
 fi
-
