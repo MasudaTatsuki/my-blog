@@ -1,0 +1,41 @@
+name: Deploy to Cloud Run via Cloud Build
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Auth to Google Cloud (OIDC)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_DEPLOY_SA }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: my-plofile-and-blog
+
+      - name: Build and Release via Cloud Build/Deploy
+        run: |
+          gcloud builds submit \
+            --config deploy/cloudbuild.yaml \
+            --substitutions _REGION=asia-northeast1,_AR_REPO=myblog \
+            --project my-plofile-and-blog
+
+# Setup notes:
+# - Create a Workload Identity Pool/Provider and grant the deploy service account the roles:
+#   clouddeploy.releaser, clouddeploy.jobRunner, run.admin, iam.serviceAccountUser, artifactregistry.writer
+# - Save values into repo Secrets:
+#   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/<NUM>/locations/global/workloadIdentityPools/<POOL>/providers/<PROVIDER>
+#   GCP_DEPLOY_SA: <sa-name>@my-plofile-and-blog.iam.gserviceaccount.com
