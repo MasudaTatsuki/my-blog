@@ -1,0 +1,17 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.associations": {
+    "*.mdx": "mdx"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "mdx"
+  ],
+  "mdx.experimentalLanguageServer": true,
+  "markdown.preview.doubleClickToSwitchToEditor": false
+}
+
