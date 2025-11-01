@@ -1,11 +1,11 @@
-import Link from 'next/link'
+import Link from "next/link";
 
 export default function Header() {
   return (
     <header className="site-header">
       <div className="container site-header-inner">
         <Link href="/" className="brand">
-          ラトリゼ<span className="brand-accent">.com</span>
+          ratlize<span className="brand-accent">.com</span>
         </Link>
         <nav className="nav">
           <Link href="/blog">ブログ</Link>
@@ -14,6 +14,5 @@ export default function Header() {
         </nav>
       </div>
     </header>
-  )
+  );
 }
-
