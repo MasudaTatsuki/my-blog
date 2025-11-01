@@ -1,14 +1,18 @@
 ﻿import Head from "next/head"
 import Header from "../components/Header"
+import SEO from "../components/SEO"
 
 export default function Home() {
-  const title = 'Ratlize Portfolio & Blog'
+  const title = 'ラトリゼ | Ratlize ポートフォリオ・ブログ'
   return (
     <>
-      <Head>
-        <title>Ratlize | Portfolio & Blog</title>
-        <meta name="description" content="Ratlize portfolio & blog" />
-      </Head>
+      <SEO
+        title="ラトリゼ（Ratlize）| ポートフォリオ・ブログ"
+        description="ラトリゼのポートフォリオ兼ブログ。Next.js と GCP(Cloud Run/Cloud Deploy)で運用し、技術記事や制作メモを発信します。"
+        path="/"
+        imagePath="/hero.jpg"
+        type="website"
+      />
       <Header />
       <section className="hero">
         <div className="container hero-inner">
@@ -28,6 +32,24 @@ export default function Home() {
         <div className="container">
           <h2 style={{marginTop:0}}>最新</h2>
           <p>まずは MDX のサンプル記事から始めましょう → <a href="/blog/hello-mdx">hello-mdx</a></p>
+          <Head>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  '@context': 'https://schema.org',
+                  '@type': 'WebSite',
+                  name: 'ラトリゼ',
+                  url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://ratlize.com'),
+                  potentialAction: {
+                    '@type': 'SearchAction',
+                    target: (process.env.NEXT_PUBLIC_SITE_URL || 'https://ratlize.com') + '/search?q={search_term_string}',
+                    'query-input': 'required name=search_term_string'
+                  }
+                })
+              }}
+            />
+          </Head>
         </div>
       </section>
     </>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ratlize.com/sitemap.xml
+
